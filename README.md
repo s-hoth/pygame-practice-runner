@@ -4,6 +4,7 @@ This project was built as practice to enhance my Python abilities and gain a fun
 
 Features added by me include:
 - Audio Control: toggle game sound by pressing the q key
-- Multiple Ways of Controling Character: either press the space key or click on the character to jump 
+- Multiple Ways of Controling Character: either press the space key or click on the character to jump
+- Adaptive Difficulty: game becomes more difficult as time goes on via an increased spawn rate for obstacles, a minimum spawn rate is set to prevent impossibility
 
 [Artwork by Kenney.nl](https://opengameart.org/content/platformer-art-pixel-edition) and [music by Juhani Junkala.](https://opengameart.org/content/5-chiptunes-action)
