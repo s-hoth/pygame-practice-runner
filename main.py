@@ -103,6 +103,9 @@ bg_music = pygame.mixer.Sound('audio/music.wav')
 bg_music.set_volume(0.5)
 bg_music.play(loops = -1)
 sound = True
+DEFAULT_SPAWN_TIME = 1500
+SPAWN_TIME_MINIMUM = 800
+spawn_time = DEFAULT_SPAWN_TIME 
 
 #player group
 player = pygame.sprite.GroupSingle()
@@ -127,7 +130,9 @@ instructions_rect = instructions_surf.get_rect(center = (400,340))
 
 #timer
 obstacle_timer = pygame.USEREVENT + 1
-pygame.time.set_timer(obstacle_timer, 1500)
+pygame.time.set_timer(obstacle_timer, DEFAULT_SPAWN_TIME)
+
+difficulty_timer = pygame.USEREVENT + 2
 
 while True:
     for event in pygame.event.get():
@@ -137,10 +142,17 @@ while True:
         
         if game_active:
             if event.type == obstacle_timer: obstacle_group.add(Obstacle(choice(['fly', 'snail', 'snail', 'snail'])))
+            if event.type == difficulty_timer and spawn_time > SPAWN_TIME_MINIMUM:
+                    spawn_time -= 100
+                    pygame.time.set_timer(obstacle_timer, spawn_time)
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE: 
                 game_active = True 
                 start_time = int(pygame.time.get_ticks() / 1000)
+                pygame.time.set_timer(obstacle_timer, DEFAULT_SPAWN_TIME)
+                spawn_time = DEFAULT_SPAWN_TIME
+                pygame.time.set_timer(difficulty_timer, 5000)
+
         if event.type == pygame.KEYDOWN and event.key == pygame.K_q: #q key toggles sound
             if sound: pygame.mixer.pause()
             else: pygame.mixer.unpause()
@@ -160,6 +172,9 @@ while True:
 
         #collision
         game_active = collison_sprite()
+        if not game_active:
+            pygame.time.set_timer(difficulty_timer, 0)
+
 
     else:
         screen.fill((94,129,162))
